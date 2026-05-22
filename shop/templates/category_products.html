@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+
+<ul>
+{% for p in products %}
+    <li>
+        <a href="/product/{{ p.slug }}/">{{ p.name }}</a>
+        — {{ p.price }} BYN
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

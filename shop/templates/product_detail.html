@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} — Sushi Shop{% endblock %}
+
+{% block content %}
+<div style="
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+">
+
+    <img src="{{ product.image.url }}" style="width: 100%; border-radius: 12px;">
+
+    <div>
+        <h1>{{ product.name }}</h1>
+
+        <p style="font-size: 20px; margin: 15px 0;">
+            {{ product.description }}
+        </p>
+
+        <p style="font-size: 26px; font-weight: bold; margin: 20px 0;">
+            Цена: <span id="price">{{ product.price }}</span> BYN
+        </p>
+
+        <label style="font-size: 18px;">Количество:</label>
+        <input id="qty" type="number" value="1" min="1"
+               style="width: 80px; padding: 5px; font-size: 18px; margin-left: 10px;">
+
+        <br><br>
+
+        <a id="addToCartBtn"
+           href="/cart/add/{{ product.id }}/?qty=1"
+           style="
+               display: inline-block;
+               padding: 12px 20px;
+               background: #ff4d4d;
+               color: white;
+               border-radius: 6px;
+               text-decoration: none;
+               font-size: 18px;
+               font-weight: bold;
+           ">
+            Добавить в корзину
+        </a>
+    </div>
+</div>
+
+<script>
+    const price = Number("{{ product.price }}");
+    const qtyInput = document.getElementById("qty");
+    const priceSpan = document.getElementById("price");
+    const btn = document.getElementById("addToCartBtn");
+
+    qtyInput.oninput = function() {
+        let qty = parseInt(qtyInput.value);
+        if (qty < 1) qty = 1;
+
+        priceSpan.innerText = price * qty;
+        btn.href = "/cart/add/{{ product.id }}/?qty=" + qty;
+    }
+</script>
+
+{% endblock %}

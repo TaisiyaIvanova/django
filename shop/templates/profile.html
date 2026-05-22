@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.profile-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: "Inter", sans-serif;
+}
+
+.profile-header {
+    background: #ff4d4d;
+    padding: 25px;
+    border-radius: 14px;
+    color: white;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.profile-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.orders-block {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.orders-block h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.order-card {
+    padding: 18px;
+    border-radius: 12px;
+    background: #fafafa;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+}
+
+.order-card strong {
+    font-size: 16px;
+}
+
+.order-items {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.order-items li {
+    margin-bottom: 5px;
+}
+</style>
+
+<div class="profile-wrapper">
+
+    <div class="profile-header">
+        <h1>Личный кабинет</h1>
+        <p style="margin-top: 8px; font-size: 16px;">Вы вошли как: <strong>{{ request.user.username }}</strong></p>
+    </div>
+
+    <div class="orders-block">
+        <h2>Последние заказы</h2>
+
+        {% if orders %}
+            {% for order in orders %}
+                <div class="order-card">
+                    <strong>Заказ №{{ order.id }}</strong><br>
+                    Сумма: {{ order.total_price }} BYN<br>
+                    Статус: {{ order.status }}<br>
+                    Дата: {{ order.created_at }}
+
+                    <ul class="order-items">
+                        {% for item in order.items.all %}
+                            <li>{{ item.product.name }} × {{ item.quantity }} — {{ item.price }} BYN</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>У вас пока нет заказов.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

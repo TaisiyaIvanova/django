@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Заказ оформлен!</h2>
+<p>Номер заказа: {{ order.id }}</p>
+<p>Сумма: {{ order.total_price }} ₽</p>
+<a href="{% url 'profile' %}">Перейти в личный кабинет</a>
+{% endblock %}
